@@ -1,0 +1,19 @@
+from tensorflow.keras.callbacks import EarlyStopping
+from models.tiny_lstm import create_tiny_lstm
+from data_preprocessing import load_and_preprocess_data
+
+def train_tiny_lstm(X_train, y_train, batch_size=64, epochs=20):
+    """
+    Train the Tiny LSTM model.
+    Args:
+        X_train: Training features (time-series data)
+        y_train: Training labels
+        batch_size: Batch size
+        epochs: Number of training epochs
+    Returns:
+        model: Trained LSTM model
+    """
+    model = create_tiny_lstm(input_shape=(20, 64), num_classes=2)
+    early_stop = EarlyStopping(monitor='val_loss', patience=3)
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.2, callbacks=[early_stop])
+    return model

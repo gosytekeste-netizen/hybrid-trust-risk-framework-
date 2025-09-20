@@ -1,0 +1,13 @@
+import subprocess
+
+def run_ns3_simulation(config_file):
+    """
+    Run NS-3 simulation with a given configuration file.
+    Args:
+        config_file: Path to the configuration file
+    """
+    ns3_command = f"ns3 run {config_file}"
+    subprocess.run(ns3_command, shell=True)
+
+# Example usage for running a simulation
+run_ns3_simulation('ns3_config_file.txt')

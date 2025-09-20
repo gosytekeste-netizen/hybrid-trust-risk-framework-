@@ -1,0 +1,25 @@
+from training.train_tiny_cnn import train_tiny_cnn
+from training.train_tiny_lstm import train_tiny_lstm
+from training.train_hybrid import train_hybrid_model
+from data_preprocessing import load_and_preprocess_data
+
+def main():
+    # Load data
+    X_train, y_train = load_and_preprocess_data('datasets/IoT-23.csv')
+    
+    # Train Tiny CNN
+    cnn_model = train_tiny_cnn(X_train, y_train)
+    
+    # Train Tiny LSTM
+    lstm_model = train_tiny_lstm(X_train, y_train)
+    
+    # Train Hybrid Model
+    hybrid_model = train_hybrid_model(X_train, y_train)
+
+    # Save models
+    cnn_model.save('models/cnn_model.h5')
+    lstm_model.save('models/lstm_model.h5')
+    hybrid_model.save('models/hybrid_model.h5')
+
+if __name__ == '__main__':
+    main()

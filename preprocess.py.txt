@@ -1,0 +1,31 @@
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
+
+def load_and_preprocess_data(dataset_path):
+    """
+    Loads and preprocesses the dataset.
+    """
+    df = pd.read_csv(dataset_path)
+    # Shuffle the data to ensure random sampling
+    df = shuffle(df)
+    
+    # Fill missing values with mean (basic approach, consider more advanced imputation strategies)
+    df.fillna(df.mean(), inplace=True)
+    
+    # Feature columns
+    X = df.drop(columns=['Timestamp', 'Device_ID', 'Label', 'Attack_Type'])
+    
+    # Label column
+    y = df['Label'].apply(lambda x: 1 if x == 'Attack' else 0)  # 1 for Attack, 0 for Normal
+    
+    # Feature scaling
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    
+    return X_scaled, y
+
+# Usage example for IoT-23 dataset
+X, y = load_and_preprocess_data('datasets/IoT-23.csv')
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)

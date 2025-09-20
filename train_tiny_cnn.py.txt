@@ -1,0 +1,19 @@
+from tensorflow.keras.callbacks import EarlyStopping
+from models.tiny_cnn import create_tiny_cnn
+from data_preprocessing import load_and_preprocess_data
+
+def train_tiny_cnn(X_train, y_train, batch_size=64, epochs=20):
+    """
+    Train the Tiny CNN model.
+    Args:
+        X_train: Training features
+        y_train: Training labels
+        batch_size: Batch size
+        epochs: Number of training epochs
+    Returns:
+        model: Trained CNN model
+    """
+    model = create_tiny_cnn(input_shape=(64, 64, 3), num_classes=2)
+    early_stop = EarlyStopping(monitor='val_loss', patience=3)
+    model.fit(X_train, y_train, batch_size=batch_size, epochs=epochs, validation_split=0.2, callbacks=[early_stop])
+    return model

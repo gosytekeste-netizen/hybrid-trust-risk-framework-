@@ -1,0 +1,22 @@
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense, Dropout
+
+def create_tiny_lstm(input_shape=(20, 64), num_classes=2):
+    """
+    Create a Tiny LSTM model for anomaly detection in time-series data.
+    Args:
+        input_shape: Shape of the input data (e.g., (time_steps, features))
+        num_classes: Number of output classes (binary classification)
+    Returns:
+        model: Compiled LSTM model
+    """
+    model = Sequential([
+        LSTM(64, input_shape=input_shape, return_sequences=False),
+        Dropout(0.3),
+        Dense(64, activation='relu'),
+        Dense(num_classes, activation='softmax')
+    ])
+    
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    return model

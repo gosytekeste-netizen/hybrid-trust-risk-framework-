@@ -1,0 +1,20 @@
+/Hybrid_Security_Framework
+    ├── /data_preprocessing
+    │     ├── preprocess.py
+    ├── /models
+    │     ├── tiny_cnn.py
+    │     ├── tiny_lstm.py
+    │     └── hybrid_model.py
+    ├── /training
+    │     ├── train_tiny_cnn.py
+    │     ├── train_tiny_lstm.py
+    │     └── train_hybrid.py
+    ├── /simulation
+    │     ├── ns3_simulation.py
+    ├── /datasets
+    │     ├── IoT-23.csv
+    │     └── Edge-IIoTset.csv
+    ├── /results
+    ├── /logs
+    ├── /requirements
+    └── main.py
