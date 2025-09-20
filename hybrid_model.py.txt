@@ -1,0 +1,30 @@
+from tensorflow.keras.layers import Input, concatenate
+from tensorflow.keras.models import Model
+from tiny_cnn import create_tiny_cnn
+from tiny_lstm import create_tiny_lstm
+
+def create_hybrid_model(input_shape_cnn=(64, 64, 3), input_shape_lstm=(20, 64), num_classes=2):
+    """
+    Create a hybrid CNN + LSTM model.
+    Args:
+        input_shape_cnn: Shape of the CNN input (e.g., image shape)
+        input_shape_lstm: Shape of the LSTM input (e.g., time-series)
+        num_classes: Number of output classes
+    Returns:
+        model: Hybrid model
+    """
+    cnn_input = Input(shape=input_shape_cnn)
+    lstm_input = Input(shape=input_shape_lstm)
+
+    cnn_model = create_tiny_cnn(input_shape_cnn, num_classes)
+    lstm_model = create_tiny_lstm(input_shape_lstm, num_classes)
+
+    cnn_output = cnn_model(cnn_input)
+    lstm_output = lstm_model(lstm_input)
+
+    combined = concatenate([cnn_output, lstm_output])
+    final_output = Dense(num_classes, activation='softmax')(combined)
+
+    model = Model(inputs=[cnn_input, lstm_input], outputs=final_output)
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    return model
